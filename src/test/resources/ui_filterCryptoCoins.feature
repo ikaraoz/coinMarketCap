@@ -9,7 +9,7 @@ Feature: Filtering ui and extracting data for comparison
     And adds filters
     And toggles "Mineable"
     And selects "All Cryptocurrencies"
-    And selects "Coins"
+    And selects "Coins" in the list
     And sets minimum value to 100 and maximum value to 10000
     Then the number of rows should not be more than 20
     Examples:
