@@ -95,10 +95,16 @@ public class HomePage {
         wait.until(ExpectedConditions.elementToBeClickable(mineableToggle)).click();
     }
 
-    public void filterAllCryptocurrencies(String filter) {
-        wait.until(ExpectedConditions.visibilityOf(allCryptocurrenciesMenu));
+    public void filterAllCryptocurrencies() {
         wait.until(ExpectedConditions.elementToBeClickable(allCryptocurrenciesMenu)).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='" + filter + "']"))).click();
+    }
+
+    public void selectCryptoCurrencies(String filter) {
+        WebElement f = driver.findElement((By.xpath("//*[text()='" + filter + "']")));
+        while(!f.isDisplayed()){
+            filterAllCryptocurrencies();
+        }
+        f.click();
     }
 
     public void filterByPrice(int minValue, int maxValue) {

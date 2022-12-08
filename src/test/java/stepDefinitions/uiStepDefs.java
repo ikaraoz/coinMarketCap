@@ -59,8 +59,8 @@ public class uiStepDefs {
     }
 
     @And("selects {string}")
-    public void selects(String filter) {
-        homePage.filterAllCryptocurrencies(filter);
+    public void selects(String arg0) {
+        homePage.filterAllCryptocurrencies();
     }
 
     @And("filters rows by {int}")
@@ -84,5 +84,10 @@ public class uiStepDefs {
     public void setsMinimumValueToAndMaximumValueTo(int minValue, int maxValue) throws InterruptedException {
         homePage.filterByPrice(minValue, maxValue);
         homePage.applyFilter();
+    }
+
+    @And("selects {string} in the list")
+    public void selectsInTheList(String filter) {
+        homePage.selectCryptoCurrencies(filter);
     }
 }
