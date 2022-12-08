@@ -26,12 +26,12 @@ public class uiStepDefs {
     HomePage homePage;
     public List<String> eachInformationToBeCapturedFromTable;
 
-    @Before("not @api")
+    @Before("not @apiTests")
     public void setUp() throws InterruptedException {
         this.driver = Driver.getDriver();
     }
 
-    @After("not @api")
+    @After("not @apiTests")
     public void tearDown() {
         driver.quit();
     }
