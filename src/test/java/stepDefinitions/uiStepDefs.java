@@ -7,16 +7,19 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import utilities.Driver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class uiStepDefs {
     WebDriver driver;
@@ -25,8 +28,7 @@ public class uiStepDefs {
 
     @Before
     public void setUp() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        this.driver = Driver.getDriver();
     }
 
     @After
@@ -61,10 +63,6 @@ public class uiStepDefs {
         homePage.filterAllCryptocurrencies(filter);
     }
 
-    @And("sets {string} value to {int}")
-    public void setsValueTo(String arg0, int arg1) {
-    }
-
     @And("filters rows by {int}")
     public void filtersRowsBy(int rowFilterValue) throws InterruptedException {
         homePage.setRowFilter(rowFilterValue);
@@ -72,7 +70,8 @@ public class uiStepDefs {
 
     @Then("the number of rows should not be more than {int}")
     public void theNumberOfRowsShouldNotBeMoreThan(int filterValue) {
-
+        int numberOfCurrency = homePage.getTable("#");
+        Assert.assertTrue(numberOfCurrency < filterValue);
     }
 
     @And("captures page contents with information {string}")
@@ -85,6 +84,5 @@ public class uiStepDefs {
     public void setsMinimumValueToAndMaximumValueTo(int minValue, int maxValue) throws InterruptedException {
         homePage.filterByPrice(minValue, maxValue);
         homePage.applyFilter();
-        Thread.sleep(100000);
     }
 }

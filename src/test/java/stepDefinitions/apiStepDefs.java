@@ -1,16 +1,21 @@
 package stepDefinitions;
 
 import coinMarketCap_api.payloads.*;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import org.openqa.selenium.chrome.ChromeDriver;
+import utilities.ConfigurationReader;
 
 import java.util.List;
 
 import static coinMarketCap_api.endpoints.GetCryptoCurrencyMapApi.getCryptoCurrencyId;
 import static coinMarketCap_api.endpoints.GetFiatCurrencyMapApi.getFiatCurrencyId;
 import static coinMarketCap_api.endpoints.GetPriceConversionApi.getPriceConversion;
+import static coinMarketCap_api.endpoints.BaseApi.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -22,6 +27,25 @@ public class apiStepDefs {
     String sourceFiatSymbol;
     double fiatToFiatConversionPrice;
     double fiatToCryptoConversionPrice;
+
+    @Before
+    public void setEnv() {
+        String apiKey = null;
+        String baseUrl = null;
+        String environment = System.getProperty("environment") == null ? environment = "production" : System.getProperty("environment");
+        switch (environment) {
+            case "production":
+                apiKey = ConfigurationReader.get("prod_apiKey");
+                baseUrl = ConfigurationReader.get("prod_coinMarketCapApi_baseUrl");
+                break;
+            case "sandbox":
+                apiKey = ConfigurationReader.get("sandbox_apiKey");
+                baseUrl = ConfigurationReader.get("sandbox_coinMarketCapApi_baseUrl");
+                break;
+        }
+        setBaseUrl(baseUrl);
+        setApiKey(apiKey);
+    }
 
     @Given("the user has {long} {string}")
     public void theUserHas(long amount, String sourceFiatName) {
@@ -47,9 +71,9 @@ public class apiStepDefs {
         response = getPriceConversion(targetFiatSymbol, targetCryptoCurrencySymbol, fiatToFiatConversionPrice);
         fiatToCryptoConversionPrice =
                 Double.parseDouble(response
-                .as(PriceConversionResponsePayload.class)
-                .getData()
-                .getPrice(targetCryptoCurrencySymbol));
+                        .as(PriceConversionResponsePayload.class)
+                        .getData()
+                        .getPrice(targetCryptoCurrencySymbol));
         System.out.println("fiatToCryptoConversionPrice = " + fiatToCryptoConversionPrice);
 
     }
@@ -68,7 +92,7 @@ public class apiStepDefs {
 
     @And("{string} price should not be null")
     public void priceShouldNotBeNull(String targetCryptoCurrencyName) {
-        assertThat(response.as(PriceConversionResponsePayload.class).getData().getPrice(targetCryptoCurrencySymbol),is(notNullValue()));
+        assertThat(response.as(PriceConversionResponsePayload.class).getData().getPrice(targetCryptoCurrencySymbol), is(notNullValue()));
     }
 
 

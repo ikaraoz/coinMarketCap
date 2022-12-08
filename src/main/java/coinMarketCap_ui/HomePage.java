@@ -1,6 +1,5 @@
 package coinMarketCap_ui;
 
-import io.cucumber.java.sl.In;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -16,12 +15,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HomePage {
 
     private WebDriver driver;
     private WebDriverWait wait;
     private int rowFiltervalue;
+    JavascriptExecutor js;
 
     @FindBy(css = ".sc-c7b56da4-0.BcsEj.popped")
     private WebElement popUpDismissButton;
@@ -37,7 +38,7 @@ public class HomePage {
 
     @FindBy(xpath = "//table[@class='sc-f7a61dda-3 kCSmOD cmc-table  ']//tbody//tr")
     private List<WebElement> tableAllRowsElements;
-    @FindBy(xpath = "//*[@class='sc-be3392e-4 evcgfK hide_on_mobile_wrapper']//button[contains(text(),'Filters')]")
+    @FindBy(xpath = "(//*[text()='Filters'])[2]")
     private WebElement FiltersButton;
     @FindBy(xpath = "//*[contains(text(),'Algorithm')]")
     private WebElement AlgorithmButton;
@@ -65,18 +66,22 @@ public class HomePage {
     @FindBy(css = ".sc-a4a6801b-0.cXksaI.cmc-filter-button")
     private WebElement showResultsButton;
 
+    @FindBy(xpath = "//*[text()='Maybe later']")
+    private WebElement maybeLaterButton;
+
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        this.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
 
     public void selectAlgorithmFilters(String filter) throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        js.executeScript("arguments[0].scrollIntoView()", FiltersButton);
-        FiltersButton.click();
+        js.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+        wait.until(ExpectedConditions.visibilityOf(FiltersButton)).click();
         wait.until(ExpectedConditions.elementToBeClickable(AlgorithmButton)).click();
         wait.until(ExpectedConditions.elementToBeClickable(AlgorithmSearchButton)).sendKeys(filter);
         driver.findElement(By.xpath("//*[text()='" + filter + "']")).click();
@@ -91,8 +96,9 @@ public class HomePage {
     }
 
     public void filterAllCryptocurrencies(String filter) {
+        wait.until(ExpectedConditions.visibilityOf(allCryptocurrenciesMenu));
         wait.until(ExpectedConditions.elementToBeClickable(allCryptocurrenciesMenu)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='" + filter + "']"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='" + filter + "']"))).click();
     }
 
     public void filterByPrice(int minValue, int maxValue) {
@@ -103,7 +109,8 @@ public class HomePage {
     }
 
     public void applyFilter() {
-        applyFilterButton.click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(applyFilterButton)).click();
 //        wait.until(ExpectedConditions.elementToBeClickable(popUpDismissButton)).click();
         showResultsButton.click();
     }
@@ -120,8 +127,7 @@ public class HomePage {
                 .click();
     }
 
-    public void getTable(String informationToBeCapturedFromTable) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+    public int getTable(String informationToBeCapturedFromTable) {
 
         List<String> eachInformationToBeCapturedFromTable = Arrays.asList(informationToBeCapturedFromTable.split(",", -1));
         wait.until(ExpectedConditions.textToBePresentInElement(rowFilterButton, Integer.toString(rowFiltervalue)));
@@ -154,5 +160,8 @@ public class HomePage {
             allTableData.add(eachRowData);
         }
         System.out.println("allTableData = " + allTableData);
+        System.out.println("allTableData.size(); = " + allTableData.size());
+        return allTableData.size();
+
     }
 }

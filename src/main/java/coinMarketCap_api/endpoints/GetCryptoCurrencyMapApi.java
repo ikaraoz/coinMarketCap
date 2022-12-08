@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class GetCryptoCurrencyMapApi extends BaseApi {
-    private static final String getCryptoCurrencyIdsUrl = baseUrl + "/cryptocurrency/map";
+    private static final String getCryptoCurrencyIdsUrl = getBaseUrl() + "/cryptocurrency/map";
 
     public static Response getCryptoCurrencyId(String CryptoCurrencyName){
 

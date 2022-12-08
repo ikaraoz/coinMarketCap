@@ -17,8 +17,8 @@ dependencies {
     implementation 'io.rest-assured:rest-assured:5.3.0'
     implementation 'io.rest-assured:json-schema-validator:5.3.0'
     implementation 'org.hamcrest:hamcrest:2.2'
-    implementation 'io.cucumber:cucumber-java:7.8.1'
-    implementation 'io.cucumber:cucumber-junit:7.8.1'
+    testImplementation 'io.cucumber:cucumber-java:7.8.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.8.1'
     implementation 'de.monochromata.cucumber:reporting-plugin:5.0.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.7.0'
     implementation("io.github.bonigarcia:webdrivermanager:5.3.1")
@@ -29,4 +29,29 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperty "browser", System.properties.getProperty("browser")
+    systemProperty "environment", System.properties.getProperty("environment")
+    systemProperty "apiKey", System.properties.getProperty("apiKey")
+    systemProperty "tag", System.properties.getProperty("tag")
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task runCucmberTests() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = [
+                    '--plugin', 'pretty',
+                    '--plugin', 'html:target/cucumber-report.html',
+                    'src/test/resources',
+            ]
+        }
+    }
 }
