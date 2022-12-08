@@ -1,3 +1,4 @@
+@apiTests
 Feature: Buy crypto currencies
 
   Scenario Outline: Successful fiat exchange and crypto-coin buy

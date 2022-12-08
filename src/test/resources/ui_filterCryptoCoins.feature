@@ -1,3 +1,4 @@
+@uiTests
 Feature: Filtering ui and extracting data for comparison
 
   Scenario Outline: User can successfully extract and compare data successfully

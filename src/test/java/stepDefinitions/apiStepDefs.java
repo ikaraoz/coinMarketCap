@@ -28,7 +28,7 @@ public class apiStepDefs {
     double fiatToFiatConversionPrice;
     double fiatToCryptoConversionPrice;
 
-    @Before
+    @Before("not @uiTests")
     public void setEnv() {
         String apiKey = null;
         String baseUrl = null;
