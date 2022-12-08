@@ -4,7 +4,11 @@ import coinMarketCap_api.payloads.*;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.restassured.RestAssured;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.junit.Assert;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -78,7 +82,7 @@ public class apiStepDefs {
 
     }
 
-    @And("the error_code should be {int}")
+    @Then("the error_code should be {int}")
     public void theError_codeShouldBe(int errorCode) {
         int actualErrorCode = response.as(PriceConversionResponsePayload.class).getStatus().getError_code();
         Assert.assertEquals(errorCode, actualErrorCode);
