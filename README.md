@@ -1,6 +1,16 @@
 # Api and UI tests - coinMarketCap
 This project contains API and UI tests for coinMarketCap.
 
+## Project Structure
+
+Feature files are located in path```src/test/resources```
+
+Step definitions were implemented in ```src/test/java/stepDefinitions```
+
+API test endpoints and response payloads are located at package ```src/main/java/coinMarketCap_api```
+
+UI POJO classes are implemented at package ```src/main/java/coinMarketCap_ui```
+
 ## Running tests
 
 ```
