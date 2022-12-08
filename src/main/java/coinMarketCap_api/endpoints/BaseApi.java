@@ -1,4 +1,4 @@
-package endpoints;
+package coinMarketCap_api.endpoints;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;

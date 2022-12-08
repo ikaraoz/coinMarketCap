@@ -1,19 +1,16 @@
 package stepDefinitions;
 
+import coinMarketCap_api.payloads.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 import org.junit.Assert;
-import payloads.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
-import static endpoints.GetCryptoCurrencyMapApi.getCryptoCurrencyId;
-import static endpoints.GetFiatCurrencyMapApi.getFiatCurrencyId;
-import static endpoints.GetPriceConversionApi.getPriceConversion;
+import static coinMarketCap_api.endpoints.GetCryptoCurrencyMapApi.getCryptoCurrencyId;
+import static coinMarketCap_api.endpoints.GetFiatCurrencyMapApi.getFiatCurrencyId;
+import static coinMarketCap_api.endpoints.GetPriceConversionApi.getPriceConversion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 

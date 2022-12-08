@@ -1,4 +1,4 @@
-package payloads;
+package coinMarketCap_api.payloads;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package endpoints;
+package coinMarketCap_api.endpoints;
 
 import io.restassured.response.Response;
 
