@@ -50,7 +50,7 @@ public class HomePage {
     @FindBy(xpath = "//label[@id='mineable']//span")
     private WebElement mineableToggle;
 
-    @FindBy(xpath = "//*[text()='All Cryptocurrencies']")
+    @FindBy(xpath = "//*[@data-qa-id='filter-dd-toggle' and text()='All Cryptocurrencies']")
     private WebElement allCryptocurrenciesMenu;
     @FindBy(xpath = "//button[text()='Price']")
     private WebElement priceMenu;
@@ -68,6 +68,9 @@ public class HomePage {
 
     @FindBy(xpath = "//*[text()='Maybe later']")
     private WebElement maybeLaterButton;
+
+    @FindBy(xpath = "//*[@data-qa-id='range-filter-crypto']")
+    private WebElement rangeFilterCrypto;
 
 
     public HomePage(WebDriver driver) {
@@ -96,15 +99,16 @@ public class HomePage {
     }
 
     public void filterAllCryptocurrencies() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         wait.until(ExpectedConditions.elementToBeClickable(allCryptocurrenciesMenu)).click();
     }
 
     public void selectCryptoCurrencies(String filter) {
-        WebElement f = driver.findElement((By.xpath("//*[text()='" + filter + "']")));
-        while(!f.isDisplayed()){
-            filterAllCryptocurrencies();
-        }
-        f.click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='" + filter + "']"))).click();
     }
 
     public void filterByPrice(int minValue, int maxValue) {
@@ -123,7 +127,7 @@ public class HomePage {
 
     public void setRowFilter(int rowFilterValue) throws InterruptedException {
         this.rowFiltervalue = rowFilterValue;
-        wait.until(ExpectedConditions.elementToBeClickable(searchPopUp)).click();
+//        wait.until(ExpectedConditions.elementToBeClickable(searchPopUp)).click();
         wait.until((
                         ExpectedConditions.elementToBeClickable(rowFilterButton)))
                 .click();
