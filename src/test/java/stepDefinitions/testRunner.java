@@ -9,7 +9,7 @@ import org.junit.runner.Runner;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"src/test/resources/features"},
+        features = {"src/test/resources"},
         plugin = {"pretty",
                 "html:target/cucumber.html",
 //                "de.monochromata.cucumber.report.PrettyReports:result/cucumber"}

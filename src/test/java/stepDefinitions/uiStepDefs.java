@@ -54,7 +54,7 @@ public class uiStepDefs {
     }
 
     @And("toggles {string}")
-    public void toggles(String arg0) throws InterruptedException {
+    public void toggles(String arg0) {
         homePage.enableMineable();
     }
 
