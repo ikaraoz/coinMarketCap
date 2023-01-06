@@ -14,7 +14,7 @@ UI POJO classes are implemented at package ```src/main/java/coinMarketCap_ui```
 ## Running tests
 
 ```
-$ ./gradlew runCucmberTests
+$ ./gradlew runCucumberTests
 ```
 ## Test reports
 Once test run has finished, test report file is generated into the location ```target/cucumber-report.html```.

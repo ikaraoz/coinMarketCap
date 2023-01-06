@@ -41,7 +41,7 @@ configurations {
     }
 }
 
-task runCucmberTests() {
+task runCucumberTests() {
     dependsOn assemble, testClasses
     doLast {
         javaexec {

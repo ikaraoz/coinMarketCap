@@ -5,19 +5,14 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.restassured.RestAssured;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.junit.Assert;
-import org.openqa.selenium.chrome.ChromeDriver;
 import utilities.ConfigurationReader;
 
 import java.util.List;
 
-import static coinMarketCap_api.endpoints.GetCryptoCurrencyMapApi.getCryptoCurrencyId;
-import static coinMarketCap_api.endpoints.GetFiatCurrencyMapApi.getFiatCurrencyId;
+import static coinMarketCap_api.endpoints.GetCryptoCurrencyMapApi.getCryptoCurrencyIds;
+import static coinMarketCap_api.endpoints.GetFiatCurrencyMapApi.getFiatCurrencyIds;
 import static coinMarketCap_api.endpoints.GetPriceConversionApi.getPriceConversion;
 import static coinMarketCap_api.endpoints.BaseApi.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -56,8 +51,8 @@ public class apiStepDefs {
         this.amount = amount;
     }
 
-    @And("the exchanges fiat {string} with fiat {string}")
-    public void theExchangesFiatWithFiat(String targetFiatName, String sourceFiatName) {
+    @And("the user exchanges fiat {string} with fiat {string}")
+    public void theUserExchangesFiatWithFiat(String targetFiatName, String sourceFiatName) {
         targetFiatSymbol = getFiatSymbol(targetFiatName);
         sourceFiatSymbol = getFiatSymbol(sourceFiatName);
         fiatToFiatConversionPrice =
@@ -101,7 +96,7 @@ public class apiStepDefs {
 
 
     public String getCryptoSymbol(String currencyName) {
-        Response resp = getCryptoCurrencyId(currencyName);
+        Response resp = getCryptoCurrencyIds();
         String symbol = "temp";
         try {
             List<CryptoIds_DataResponsePayload> data = resp.as(ListCryptoIdsResponsePayload.class).getCryptoData();
@@ -118,7 +113,7 @@ public class apiStepDefs {
     }
 
     public String getFiatSymbol(String currencyName) {
-        Response resp = getFiatCurrencyId(currencyName);
+        Response resp = getFiatCurrencyIds();
         String symbol = "temp";
         try {
             List<FiatIds_DataResponsePayload> data = resp.as(ListFiatIdsResponsePayload.class).getFiatData();
