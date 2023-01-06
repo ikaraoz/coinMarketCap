@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.*;
 public class GetFiatCurrencyMapApi extends BaseApi {
     private static final String getFiatCurrencyIdsUrl = getBaseUrl() + "/fiat/map";
 
-    public static Response getFiatCurrencyId(String fiatCurrencyName) {
+    public static Response getFiatCurrencyIds() {
         Response resp = given()
                 .spec(AuthSetup())
                 .when()
